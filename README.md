@@ -19,7 +19,9 @@ A download manager component for [foobar2000](https://www.foobar2000.org/) v2.x 
 
 ## Screenshots
 
-*(Add screenshots of the Downloader panel, preferences pages, and search results dialogs here)*
+![Downloader panel with active download queue](screenshots/image1.png)
+
+![Downloader preferences page](screenshots/image2.png)
 
 ## Installation
 
