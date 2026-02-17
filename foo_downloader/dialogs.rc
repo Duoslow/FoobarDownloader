@@ -1,0 +1,147 @@
+#include "resource.h"
+#include <windows.h>
+#include <commctrl.h>
+
+// ============================================================================
+// Preferences: main page (Downloader)
+// ============================================================================
+IDD_PREFERENCES DIALOGEX 0, 0, 320, 196
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "Segoe UI"
+BEGIN
+    GROUPBOX        "Download Settings", -1, 4, 2, 312, 78
+    LTEXT           "Output folder:", -1, 12, 16, 48, 8
+    EDITTEXT        IDC_OUTPUT_FOLDER, 64, 14, 196, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...", IDC_BROWSE_FOLDER, 264, 13, 44, 16
+    LTEXT           "Max concurrent:", -1, 12, 34, 55, 8
+    EDITTEXT        IDC_MAX_CONCURRENT, 70, 32, 28, 14, ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Open download folder", IDC_OPEN_FOLDER_BTN, 170, 32, 84, 14, BS_FLAT
+    LTEXT           "Retry count:", -1, 12, 52, 48, 8
+    EDITTEXT        IDC_RETRY_COUNT, 70, 50, 28, 14, ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "(0 = no retry)", -1, 102, 52, 60, 8
+
+    GROUPBOX        "Playlist", -1, 4, 86, 312, 42
+    CONTROL         "Auto-add completed downloads to playlist", IDC_AUTO_ADD_PLAYLIST, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 99, 160, 10
+    LTEXT           "Playlist name:", -1, 12, 113, 50, 8
+    EDITTEXT        IDC_PLAYLIST_NAME, 64, 111, 100, 14, ES_AUTOHSCROLL
+
+    GROUPBOX        "Sources", -1, 4, 134, 312, 56
+    CONTROL         "Custom Source", IDC_ENABLE_CUSTOM_SOURCE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 147, 80, 10
+    CONTROL         "YouTube", IDC_ENABLE_YOUTUBE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 160, 80, 10
+    CONTROL         "Direct URL", IDC_ENABLE_DIRECT_URL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 173, 80, 10
+END
+
+// ============================================================================
+// Preferences sub-page: YouTube / yt-dlp
+// ============================================================================
+IDD_PREF_YOUTUBE DIALOGEX 0, 0, 320, 120
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "yt-dlp path:", -1, 8, 10, 48, 8
+    EDITTEXT        IDC_YTDLP_PATH, 60, 8, 200, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...", IDC_BROWSE_YTDLP, 264, 7, 44, 16
+
+    LTEXT           "Default quality:", -1, 8, 30, 52, 8
+    COMBOBOX        IDC_YT_DEFAULT_QUALITY, 60, 28, 130, 160, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    CONTROL         "Embed metadata and thumbnail", IDC_EMBED_METADATA, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 8, 50, 130, 10
+
+    LTEXT           "Extra flags:", -1, 8, 68, 48, 8
+    EDITTEXT        IDC_YTDLP_EXTRA_FLAGS, 60, 66, 248, 14, ES_AUTOHSCROLL
+    LTEXT           "e.g. --cookies-from-browser chrome --geo-bypass", -1, 60, 82, 248, 8
+END
+
+// ============================================================================
+// Preferences sub-page: aria2 Engine
+// ============================================================================
+IDD_PREF_ARIA2 DIALOGEX 0, 0, 320, 60
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "aria2c path:", -1, 8, 10, 48, 8
+    EDITTEXT        IDC_ARIA2_PATH, 60, 8, 200, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...", IDC_BROWSE_ARIA2, 264, 7, 44, 16
+
+    LTEXT           "RPC port:", -1, 8, 30, 40, 8
+    EDITTEXT        IDC_ARIA2_PORT, 52, 28, 36, 14, ES_AUTOHSCROLL | ES_NUMBER
+END
+
+// ============================================================================
+// Preferences sub-page: Custom Source
+// ============================================================================
+IDD_PREF_CUSTOM_SOURCE DIALOGEX 0, 0, 320, 60
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "Base URL:", -1, 8, 10, 36, 8
+    EDITTEXT        IDC_CUSTOM_SOURCE_URL, 48, 8, 216, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "Test", IDC_TEST_CUSTOM_SOURCE, 268, 7, 40, 16
+    LTEXT           "e.g. https://example.com  (domain only - leave empty to disable)", -1, 48, 26, 260, 8
+    LTEXT           "Restart foobar2000 after changing the URL for it to take effect.", -1, 8, 42, 300, 8
+END
+
+// ============================================================================
+// Downloader panel (UI element)
+// ============================================================================
+IDD_DOWNLOADER_PANEL DIALOGEX 0, 0, 400, 300
+STYLE DS_SETFONT | WS_CHILD | WS_CLIPCHILDREN
+FONT 8, "Segoe UI"
+BEGIN
+    COMBOBOX        IDC_SOURCE_COMBO, 2, 2, 80, 200, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_URL_INPUT, 86, 2, 240, 14, ES_AUTOHSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Download", IDC_DOWNLOAD_BTN, 330, 1, 66, 16, BS_FLAT | WS_TABSTOP
+
+    CONTROL         "", IDC_QUEUE_LIST, "SysListView32", LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP, 2, 20, 396, 258
+
+    PUSHBUTTON      "Clear Done", IDC_CLEAR_COMPLETED_BTN, 2, 282, 56, 14, BS_FLAT
+    LTEXT           "Ready", IDC_STATUS_BAR, 64, 284, 332, 8
+END
+
+// ============================================================================
+// Context menu download dialog
+// ============================================================================
+IDD_DOWNLOAD_URL DIALOGEX 0, 0, 320, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Download from URL"
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "Source:", -1, 8, 12, 28, 8
+    COMBOBOX        IDC_CM_SOURCE_COMBO, 40, 10, 110, 200, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "URL:", -1, 8, 32, 20, 8
+    EDITTEXT        IDC_CM_URL_INPUT, 40, 30, 270, 14, ES_AUTOHSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "Download", IDOK, 200, 58, 54, 18
+    PUSHBUTTON      "Cancel", IDCANCEL, 258, 58, 54, 18
+END
+
+// ============================================================================
+// Search results selection dialog
+// ============================================================================
+IDD_SEARCH_RESULTS DIALOGEX 0, 0, 380, 240
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Search Results"
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "Select tracks to download:", IDC_RESULTS_INFO, 8, 6, 360, 8
+    CONTROL         "", IDC_RESULTS_LIST, "SysListView32", LVS_REPORT | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP, 8, 18, 364, 192
+    DEFPUSHBUTTON   "Download Selected", IDOK, 248, 216, 68, 18
+    PUSHBUTTON      "Cancel", IDCANCEL, 320, 216, 52, 18
+END
+
+// ============================================================================
+// YouTube search results dialog (with quality selector)
+// ============================================================================
+IDD_YT_SEARCH_RESULTS DIALOGEX 0, 0, 460, 280
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "YouTube Search Results"
+FONT 8, "Segoe UI"
+BEGIN
+    LTEXT           "Select tracks to download:", IDC_YT_RESULTS_INFO, 8, 6, 440, 8
+    CONTROL         "", IDC_YT_RESULTS_LIST, "SysListView32", LVS_REPORT | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP, 8, 18, 444, 220
+    LTEXT           "Quality:", IDC_YT_QUALITY_LABEL, 8, 247, 26, 8
+    COMBOBOX        IDC_YT_QUALITY_COMBO, 36, 245, 120, 160, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Download Selected", IDOK, 324, 258, 68, 18
+    PUSHBUTTON      "Cancel", IDCANCEL, 396, 258, 56, 18
+END

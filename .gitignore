@@ -1,0 +1,25 @@
+# Build outputs
+build/
+x64/
+*.obj
+*.pdb
+*.lib
+*.exp
+*.ilk
+*.log
+*.tlog
+
+# IDE
+.vs/
+.claude/
+*.user
+*.suo
+
+# SDK dependencies (run setup_deps.ps1 to download)
+foobar2000/
+libPPUI/
+pfc/
+vendor/
+
+# Package output
+*.fb2k-component
