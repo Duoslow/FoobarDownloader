@@ -1,0 +1,102 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+=============================================
+
+FoobarDownloader (foo_downloader) incorporates or references the
+following third-party software. The notices below are provided for
+informational purposes and to comply with the respective license terms.
+
+
+1. aria2  (BUNDLED)
+----------------------------------------------------------------------
+
+   Version:    1.37.0
+   Website:    https://aria2.github.io/
+   Repository: https://github.com/aria2/aria2
+   License:    GNU General Public License v2.0 with OpenSSL exception
+
+   aria2c.exe is distributed as an unmodified binary obtained from the
+   official aria2 release:
+   https://github.com/aria2/aria2/releases/tag/release-1.37.0
+
+   Source code for this exact version is available at:
+   https://github.com/aria2/aria2/tree/release-1.37.0
+
+   Copyright (C) 2006 Tatsuhiro Tsujikawa
+
+   aria2 is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License version 2 as
+   published by the Free Software Foundation.
+
+   The full GPLv2 license text is included in:
+     LICENSES/aria2-GPL-2.0.txt
+
+   The OpenSSL linking exception is included in:
+     LICENSES/aria2-OpenSSL-exception.txt
+
+   NOTE: FoobarDownloader's own source code (foo_downloader.dll) is
+   licensed under the MIT License. aria2c.exe is an independent program
+   distributed alongside foo_downloader.dll as a separate executable.
+   The GPLv2 copyleft applies to aria2 and its derivatives, not to
+   independent works merely distributed together with it (see GPLv2
+   Section 2, "mere aggregation" clause).
+
+
+2. yt-dlp  (RUNTIME DEPENDENCY -- NOT BUNDLED)
+----------------------------------------------------------------------
+
+   Website:    https://github.com/yt-dlp/yt-dlp
+   License:    The Unlicense (public domain)
+
+   yt-dlp is NOT included in this distribution. The plugin downloads
+   yt-dlp.exe at runtime when the user first initiates a YouTube
+   download. It is listed here for transparency.
+
+   yt-dlp is released under The Unlicense, placing it in the public
+   domain. Full text: https://github.com/yt-dlp/yt-dlp/blob/master/LICENSE
+
+
+3. SQLite  (STATICALLY LINKED)
+----------------------------------------------------------------------
+
+   Website:    https://sqlite.org/
+   License:    Public domain
+
+   SQLite is in the public domain and has no license restrictions.
+   https://sqlite.org/copyright.html
+
+
+4. WTL (Windows Template Library)  (COMPILED INTO DLL)
+----------------------------------------------------------------------
+
+   Version:    10.0.10320
+   Website:    https://wtl.sourceforge.io/
+   License:    Microsoft Public License (Ms-PL)
+
+   WTL headers are used at compile time. The resulting code is compiled
+   into foo_downloader.dll.
+
+
+5. foobar2000 SDK  (BUILD DEPENDENCY)
+----------------------------------------------------------------------
+
+   Website:    https://www.foobar2000.org/SDK
+   License:    foobar2000 SDK license (zlib-style)
+
+   Copyright (C) 2002-2024 Peter Pawlowski
+
+   This software is provided 'as-is', without any express or implied
+   warranty. In no event will the authors be held liable for any damages
+   arising from the use of this software.
+
+   Permission is granted to anyone to use this software for any purpose,
+   including commercial applications, and to alter it and redistribute it
+   freely, subject to the following restrictions:
+
+   1. The origin of this software must not be misrepresented; you must
+      not claim that you wrote the original software. If you use this
+      software in a product, an acknowledgment in the product
+      documentation would be appreciated but is not required.
+   2. Altered source versions must be plainly marked as such, and must
+      not be misrepresented as being the original software.
+   3. This notice may not be removed or altered from any source
+      distribution.

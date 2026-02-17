@@ -22,7 +22,19 @@ SOFTWARE.
 
 ---
 
-This software bundles the following third-party components:
+THIRD-PARTY COMPONENTS
 
-- aria2c.exe: Licensed under GPL v2 with OpenSSL exception.
-  Source code available at https://github.com/aria2/aria2
+This software bundles or uses the following third-party components:
+
+1. aria2 (BUNDLED as aria2c.exe)
+   License: GNU General Public License v2.0 with OpenSSL exception
+   Copyright (C) 2006 Tatsuhiro Tsujikawa
+   Source: https://github.com/aria2/aria2/releases/tag/release-1.37.0
+   Full license text: LICENSES/aria2-GPL-2.0.txt
+   OpenSSL exception: LICENSES/aria2-OpenSSL-exception.txt
+
+2. yt-dlp (downloaded at runtime, NOT bundled)
+   License: The Unlicense (public domain)
+   Source: https://github.com/yt-dlp/yt-dlp
+
+See THIRD_PARTY_NOTICES.txt for complete details.

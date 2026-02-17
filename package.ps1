@@ -59,9 +59,26 @@ New-Item -ItemType Directory -Path $StagingDir | Out-Null
 Copy-Item $dllPath   -Destination $StagingDir
 Copy-Item $aria2Path -Destination $StagingDir
 
+# ── 3b. Include license files ─────────────────────────────────────────────────
+$licenseSrcDir = Join-Path $SolutionDir 'LICENSES'
+$thirdParty    = Join-Path $SolutionDir 'THIRD_PARTY_NOTICES.txt'
+
+if (Test-Path $licenseSrcDir) {
+    $licenseDstDir = Join-Path $StagingDir 'LICENSES'
+    New-Item -ItemType Directory -Path $licenseDstDir | Out-Null
+    Copy-Item (Join-Path $licenseSrcDir '*') -Destination $licenseDstDir -Recurse
+    Write-Host "  Included LICENSES/" -ForegroundColor Green
+}
+
+if (Test-Path $thirdParty) {
+    Copy-Item $thirdParty -Destination $StagingDir
+    Write-Host "  Included THIRD_PARTY_NOTICES.txt" -ForegroundColor Green
+}
+
 Write-Host "Staged files:" -ForegroundColor Cyan
-Get-ChildItem $StagingDir | ForEach-Object {
-    Write-Host ("  {0}  ({1:N0} KB)" -f $_.Name, ($_.Length / 1KB))
+Get-ChildItem $StagingDir -Recurse -File | ForEach-Object {
+    $rel = $_.FullName.Substring($StagingDir.Length + 1)
+    Write-Host ("  {0}  ({1:N0} KB)" -f $rel, ($_.Length / 1KB))
 }
 
 # ── 4. Create .fb2k-component (ZIP) ────────────────────────────────────────────
@@ -86,5 +103,7 @@ Write-Host "`nDone." -ForegroundColor Green
     Write-Host $_.ScriptStackTrace -ForegroundColor DarkRed
 }
 
-Write-Host "`nPress any key to close..."
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+if ([Environment]::UserInteractive -and -not $env:CI) {
+    Write-Host "`nPress any key to close..."
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+}
