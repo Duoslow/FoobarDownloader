@@ -1,4 +1,4 @@
-# foo_downloader
+# foo_music_downloader
 
 A download manager component for [foobar2000](https://www.foobar2000.org/) v2.x (x64). Search, download, and queue audio files directly from within foobar2000 using a plugin-style source provider architecture.
 
